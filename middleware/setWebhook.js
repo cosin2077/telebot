@@ -4,7 +4,7 @@ const setWebhook = (bot, path = '/setWebhook', auth = '201010') => async (ctx, n
   const { webhook, authToken } = ctx.query;
   if (safeCompare(path, ctx.path)) {
     console.log('botInfo, webhook, authToken')
-    console.log(botInfo, webhook, authToken)
+    console.log(bot.botInfo, webhook, authToken)
     if (!auth || authToken !== auth) {
       ctx.status = 403
       return ctx.body = { msg: 'authToken needed!' }
@@ -21,7 +21,7 @@ const setWebhook = (bot, path = '/setWebhook', auth = '201010') => async (ctx, n
         hookPath: parsed.pathname
       }
       res = await launch(webhookConfig)
-      res = 'set webhook succeed!'
+      res = { msg: 'set webhook succeed!' }
       ctx.status = 200
     } catch (err) {
       console.log('await launch')
