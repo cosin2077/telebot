@@ -45,8 +45,10 @@ app.listen(PORT, () => {
   const msg =
 `
 koa server running at: http://127.0.0.1:${PORT}
+query with ?responseTime=true to show response time!
+
 botApiPath: ${botApiPath} 
-use POST ${setWebhookPath} body = {authToken,webhook} to set webhook!
+use POST ${setWebhookPath}?authToken=<authToken>&webhook=<webhook>} to set webhook!
 `
   console.log(msg)
 })
