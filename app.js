@@ -4,7 +4,7 @@ const koaBody = require('koa-body')
 const safeCompare = require('safe-compare')
 const { setWebhook, responseTime } = require('./middleware')
 const { useRouter } = require('./router')
-const bot = require('./bot')
+const { bot } = require('./bot')
 const { safeRun } = require('./utils')
 
 // First reply will be served via webhook response,
@@ -21,34 +21,35 @@ const setWebhookAuth = '201010'
 // npm install -g localtunnel && lt --port 3000
 // bot.telegram.setWebhook(`https://-----.localtunnel.me${secretPath}`)
 
-
 const app = new Koa()
 app
   .use(responseTime)
   .use(koaBody())
   .use(setWebhook(bot, setWebhookPath, setWebhookAuth))
   .use(async (ctx, next) => {
-  if (safeCompare(botApiPath, ctx.url)) {
-    try {
-      await bot.handleUpdate(ctx.request.body)
-      ctx.status = 200
-    } catch (err) {
-      ctx.status = 500
-      ctx.body = { msg: err.message }
+    if (safeCompare(botApiPath, ctx.path)) {
+      console.log(ctx.query)
+      console.log(ctx.request.body)
+      try {
+        // ctx.body = await bot.handleUpdate(ctx.request.body)
+        ctx.status = 200
+      } catch (err) {
+        ctx.status = 500
+        ctx.body = { msg: err.message }
+      }
+      return
     }
-    return
-  }
-  return next()
-})
+    return next()
+  })
 useRouter(app)
 app.listen(PORT, () => {
   const msg =
-`
+    `
 koa server running at: http://127.0.0.1:${PORT}
 query with ?responseTime=true to show response time!
 
 botApiPath: ${botApiPath} 
-use POST ${setWebhookPath}?authToken=<authToken>&webhook=<webhook>} to set webhook!
+use POST ${setWebhookPath}?authToken=<authToken>&webhook=<webhook> to set webhook!
 `
   console.log(msg)
 })

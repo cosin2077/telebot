@@ -19,6 +19,11 @@ bot.command('help', async ctx => {
   ctx.replyWithHTML(helpMessage)
 })
 
+bot.on('text', async ctx => {
+  const { from, text } = ctx.update.message
+  console.log(from, text)
+})
+
 bot.command('fact', async (ctx) => {
   ctx.reply('Generating, Please wait !!!')
 });
@@ -34,12 +39,19 @@ listenEvents.forEach((event, index) => {
     console.log(ctx.update.message)
   })
 })
-bot.launch()
-.then(() => {
-  console.log('server connect bot succeed!')
-}).catch(console.log)
+const launch = (webhook) => {
+  return bot.launch({
+    webhook
+  })
+    .then(() => {
+      console.log('run server bot succeed!')
+    })
+}
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
-module.exports = bot
+module.exports = {
+  bot,
+  launch
+}
