@@ -30,8 +30,19 @@ const handle404 = async (ctx, next) => {
     ctx.status = 404
   }
 }
-
+const flattenArray = (array) => {
+  let ret = []
+  array.forEach(item => {
+    if (!Array.isArray(item)) {
+      ret.push(item)
+    } else {
+      ret.push(...flattenArray(item))
+    }
+  })
+  return ret
+}
 module.exports = {
   handle404,
-  safeRun
+  safeRun,
+  flattenArray
 }

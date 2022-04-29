@@ -13,7 +13,7 @@ const fetchApi = (url, options = {}) => {
     }
   })
   .then(res => {
-    console.log(res)
+    return res
   })
   .catch(err => {
     console.log(err)
@@ -21,4 +21,7 @@ const fetchApi = (url, options = {}) => {
 }
 
 fetchApi('/')
-fetchApi('/asd')
+.then(res => {
+  console.log(res)
+})
+// fetchApi('/asd')

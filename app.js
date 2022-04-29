@@ -29,10 +29,9 @@ app
   .use(setWebhook(bot, setWebhookPath, setWebhookAuth))
   .use(async (ctx, next) => {
     if (safeCompare(botApiPath, ctx.path)) {
-      console.log(ctx.query)
-      console.log(ctx.request.body)
+      console.log('ctx.request.body:', ctx.request.body)
       try {
-        // ctx.body = await bot.handleUpdate(ctx.request.body)
+        ctx.body = await bot.handleUpdate(ctx.request.body)
         ctx.status = 200
       } catch (err) {
         ctx.status = 500
@@ -43,6 +42,8 @@ app
     return next()
   })
 useRouter(app)
+bot.launch()
+
 app.listen(PORT, () => {
   const msg =
     `
