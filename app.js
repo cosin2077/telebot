@@ -5,6 +5,7 @@ const safeCompare = require('safe-compare')
 const { setWebhook, responseTime } = require('./middleware')
 const { useRouter } = require('./router')
 const bot = require('./bot')
+const { safeRun } = require('./utils')
 
 // First reply will be served via webhook response,
 // but messages order not guaranteed due to `koa` pipeline design.

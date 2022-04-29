@@ -8,3 +8,17 @@ const safeRun = (cb, showError = true) => {
     }
   }
 }
+
+const handleError = () => {
+  console.log('run handleError...')
+  process.on('error', (err) => {
+    console.log(`[process.on('error')]:`, err)
+  })
+  process.on('unhandledRejection', (err) => {
+    console.log(`[process.on('unhandledRejection')]:`, err)
+  })
+  process.on('uncaughtException', (err) => {
+    console.log(`[process.on('uncaughtException')]:`, err)
+  })
+}
+handleError()

@@ -1,5 +1,6 @@
 
 const responseTime = async (ctx, next) => {
+  if (!ctx.query.responseTime) return next()
   const start = process.hrtime()
   await next()
   const end = process.hrtime(start)
