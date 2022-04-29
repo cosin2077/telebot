@@ -5,7 +5,7 @@ const safeCompare = require('safe-compare')
 const { setWebhook, responseTime } = require('./middleware')
 const { useRouter } = require('./router')
 const { bot } = require('./bot')
-const { safeRun } = require('./utils')
+const { safeRun, handle404 } = require('./utils')
 
 // First reply will be served via webhook response,
 // but messages order not guaranteed due to `koa` pipeline design.
@@ -24,6 +24,7 @@ const setWebhookAuth = '201010'
 const app = new Koa()
 app
   .use(responseTime)
+  .use(handle404)
   .use(koaBody())
   .use(setWebhook(bot, setWebhookPath, setWebhookAuth))
   .use(async (ctx, next) => {

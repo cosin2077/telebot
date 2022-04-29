@@ -22,3 +22,16 @@ const handleError = () => {
   })
 }
 handleError()
+
+const handle404 = async (ctx, next) => {
+  await next()
+  if (ctx.status === 404) {
+    ctx.body = 'not support this route!'
+    ctx.status = 404
+  }
+}
+
+module.exports = {
+  handle404,
+  safeRun
+}
