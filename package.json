@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app",
+    "dev": "nodemon app local",
     "lt": "lt -p 9525",
     "ngrok": "ngrok http 9525",
     "local": "nodemon app local",
