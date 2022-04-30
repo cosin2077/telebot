@@ -13,9 +13,9 @@ const proxyConfig = {
 const bot = new Telegraf(process.env.BOT_TOKEN, proxyConfig)
 const taskList = []
 const commands = [
-  ['🔍 Search', '😎 Popular'], // Row1 with 2 buttons
+  ['🔍 Search', '😎 Popular', 'Start'], // Row1 with 2 buttons
   ['☸ Setting', '📞 Feedback'], // Row2 with 2 buttons
-  ['📢 Ads', '⭐️ Rate us', '👥 Share'] // Row3 with 3 buttons
+  ['📢 Ads', '⭐️ Rate us', '👥 Contact'] // Row3 with 3 buttons
 ]
 const commandsFlatten = flattenArray(commands)
 bot.start((ctx) => {
@@ -24,10 +24,7 @@ bot.start((ctx) => {
   //   .keyboard(['/simple', '/inline', '/pyramid'])
   //   .oneTime()
   //   .resize())
-  ctx.reply('start with button', Markup
-    .keyboard(commands)
-    .oneTime()
-    .resize())
+  renderStart(ctx)
 })
 
 bot.command('help', async ctx => {
@@ -90,9 +87,29 @@ bot.on('text', async ctx => {
   console.log(from, text)
   handleOnText(from, text, ctx)
 })
+const renderContact = (ctx) => {
+  return ctx.reply(
+      `you can contact with us with
+      telegram: @masteryice or
+      twitter: https://twitter.com/defimetech`,
+      { parse_mode: 'HTML'}
+    )
+}
+const renderStart = ctx => {
+  return ctx.reply('start with button', Markup
+    .keyboard(commands)
+    .oneTime()
+    .resize())
+}
 const handleOnText = (from, text, ctx) => {
   if (commandsFlatten.find(command => command === text)) {
     console.log(`run command:${text}`)
+    if (/contact/gim.test(text)) {
+      return renderContact(ctx)
+    }
+    if (/start/gim.test(text)) {
+      return renderStart(ctx)
+    }
     return ctx.reply('<b>Coke</b> or <i>Pepsi?</i>', {
       parse_mode: 'HTML',
       ...Markup.inlineKeyboard([
@@ -126,7 +143,7 @@ let listenEventMsg = ''
 listenEvents.forEach((event, index) => {
   listenEventMsg += event + ','
   if (index === listenEvents.length - 1) {
-    console.log(`listening: ${listenEventMsg}`)
+    console.log(`all events listening init...`)
   }
   bot.on(event, async ctx => {
     console.log(`bot.on(${event})`)

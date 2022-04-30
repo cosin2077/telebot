@@ -10,7 +10,7 @@ const safeRun = (cb, showError = true) => {
 }
 
 const handleError = () => {
-  console.log('run handleError...')
+  console.log('handleError init...')
   process.on('error', (err) => {
     console.log(`[process.on('error')]:`, err)
   })

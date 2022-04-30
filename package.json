@@ -5,8 +5,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon app",
-    "live": "lt -p 9525",
-    "ngrok": "ngrok http 9525"
+    "lt": "lt -p 9525",
+    "ngrok": "ngrok http 9525",
+    "local": "nodemon app local",
+    "live": "nodemon app live"
   },
   "dependencies": {
     "@koa/router": "^10.1.1",

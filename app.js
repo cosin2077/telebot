@@ -20,7 +20,7 @@ const setWebhookAuth = '201010'
 // Set telegram webhook
 // npm install -g localtunnel && lt --port 3000
 // bot.telegram.setWebhook(`https://-----.localtunnel.me${secretPath}`)
-
+const runMode = process.argv[2] || 'local'
 const app = new Koa()
 app
   .use(responseTime)
@@ -42,8 +42,15 @@ app
     return next()
   })
 useRouter(app)
-bot.launch()
 
+if (runMode === 'local') {
+  console.log('run with local mode, start connecting bot server...')
+  bot
+    .launch()
+    .then(() => {
+      console.log('run server bot succeed!')
+    })
+}
 app.listen(PORT, () => {
   const msg =
     `
@@ -51,7 +58,7 @@ koa server running at: http://127.0.0.1:${PORT}
 query with ?responseTime=true to show response time!
 
 botApiPath: ${botApiPath} 
-use POST ${setWebhookPath}?authToken=<authToken>&webhook=<webhook> to set webhook!
+use GET ${setWebhookPath}?authToken=<authToken>&webhook=<webhook> to set webhook!
 `
   console.log(msg)
 })
