@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node app",
     "dev": "nodemon app",
     "lt": "lt -p 9525",
     "ngrok": "ngrok http 9525",

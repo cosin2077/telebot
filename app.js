@@ -6,21 +6,21 @@ const { setWebhook, responseTime } = require('./middleware')
 const { useRouter } = require('./router')
 const { bot } = require('./bot')
 const { safeRun, handle404 } = require('./utils')
-
+const { KOA_PORT, RUN_MODE } = process.env
 // First reply will be served via webhook response,
 // but messages order not guaranteed due to `koa` pipeline design.
 // Details: https://github.com/telegraf/telegraf/issues/294
 bot.command('image', (ctx) => ctx.replyWithPhoto({ url: 'https://picsum.photos/200/300/?random' }))
 bot.on('text', (ctx) => ctx.reply('Hello'))
 
-const PORT = 9525
+const PORT = KOA_PORT
 const botApiPath = `/tele/masteryibot`
 const setWebhookPath = `/tele/setWebhook`
 const setWebhookAuth = '201010'
 // Set telegram webhook
 // npm install -g localtunnel && lt --port 3000
 // bot.telegram.setWebhook(`https://-----.localtunnel.me${secretPath}`)
-const runMode = process.argv[2] || 'local'
+const runMode = RUN_MODE || process.argv[2] || 'local'
 const app = new Koa()
 app
   .use(responseTime)
@@ -61,4 +61,8 @@ botApiPath: ${botApiPath}
 use GET ${setWebhookPath}?authToken=<authToken>&webhook=<webhook> to set webhook!
 `
   console.log(msg)
+})
+.catch(err => {
+  console.log(err)
+  process.exit(1)
 })
