@@ -9,7 +9,9 @@
     "lt": "lt -p 9525",
     "ngrok": "ngrok http 9525",
     "local": "nodemon app local",
-    "live": "nodemon app live"
+    "live": "nodemon app live",
+    "build": "./scripts/build.sh",
+    "run": "./scripts/run.sh"
   },
   "dependencies": {
     "@koa/router": "^10.1.1",
