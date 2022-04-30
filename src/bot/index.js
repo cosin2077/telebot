@@ -89,9 +89,7 @@ bot.on('text', async ctx => {
 })
 const renderContact = (ctx) => {
   return ctx.reply(
-      `you can contact with us with
-      telegram: @masteryice or
-      twitter: https://twitter.com/defimetech`,
+      `you can contact with us with\ntelegram: @masteryice or\ntwitter: https://twitter.com/defimetech`,
       { parse_mode: 'HTML'}
     )
 }
