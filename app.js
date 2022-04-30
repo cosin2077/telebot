@@ -62,7 +62,7 @@ use GET ${setWebhookPath}?authToken=<authToken>&webhook=<webhook> to set webhook
 `
   console.log(msg)
 })
-.catch(err => {
+.on('error', err => {
   console.log(err)
   process.exit(1)
 })
