@@ -13,7 +13,6 @@ FROM node:16-alpine AS runner
 WORKDIR /app
 COPY --from=builder /app /app
 
-ARG HTTPS_PROXY="http://host.docker.internal:7890"
 ENV HTTPS_PROXY=${HTTPS_PROXY}
 ARG KOA_PORT="9525"
 ENV KOA_PORT=${KOA_PORT}

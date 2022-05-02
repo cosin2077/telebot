@@ -6,7 +6,7 @@ const { startMessage, helpMessage } = require('../messages')
 const { flattenArray } = require('../utils')
 const { listenEvents } = require('../listen')
 const useProxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.ALL_PROXY
-let = {}
+let proxyConfig = {}
 if (useProxy) {
   proxyConfig = {
     telegram: {
