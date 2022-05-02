@@ -5,11 +5,16 @@ require('dotenv').config()
 const { startMessage, helpMessage } = require('../messages')
 const { flattenArray } = require('../utils')
 const { listenEvents } = require('../listen')
-const proxyConfig = {
-  telegram: {
-    agent: new HttpsProxyAgent(process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.ALL_PROXY)
+const useProxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.ALL_PROXY
+let = {}
+if (useProxy) {
+  proxyConfig = {
+    telegram: {
+      agent: new HttpsProxyAgent(useProxy)
+    }
   }
 }
+
 const bot = new Telegraf(process.env.BOT_TOKEN, proxyConfig)
 const taskList = []
 const commands = [
@@ -89,9 +94,9 @@ bot.on('text', async ctx => {
 })
 const renderContact = (ctx) => {
   return ctx.reply(
-      `you can contact with us with\ntelegram: @masteryice or\ntwitter: https://twitter.com/defimetech`,
-      { parse_mode: 'HTML'}
-    )
+    `you can contact with us with\ntelegram: @masteryice or\ntwitter: https://twitter.com/defimetech`,
+    { parse_mode: 'HTML' }
+  )
 }
 const renderStart = ctx => {
   return ctx.reply('start with button', Markup

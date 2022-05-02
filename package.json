@@ -5,16 +5,17 @@
   "license": "MIT",
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app local",
+    "dev": "HTTPS_PROXY='http://127.0.0.1:7890' nodemon app local",
     "lt": "lt -p 9525",
     "ngrok": "ngrok http 9525",
-    "local": "nodemon app local",
+    "local": "HTTPS_PROXY='http://127.0.0.1:7890' nodemon app local",
     "live": "nodemon app live",
     "build": "./scripts/build.sh",
     "run": "./scripts/run.sh"
   },
   "dependencies": {
     "@koa/router": "^10.1.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "https-proxy-agent": "^5.0.1",
     "koa": "^2.13.4",
