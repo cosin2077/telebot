@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app",
-    "dev": "HTTPS_PROXY='http://127.0.0.1:7890' nodemon app local",
+    "dev": "cross-env HTTPS_PROXY='http://127.0.0.1:7890' nodemon app local",
     "lt": "lt -p 9525",
     "ngrok": "ngrok http 9525",
     "local": "HTTPS_PROXY='http://127.0.0.1:7890' nodemon app local",

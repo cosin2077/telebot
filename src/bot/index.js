@@ -5,6 +5,8 @@ require('dotenv').config()
 const { startMessage, helpMessage } = require('../messages')
 const { flattenArray } = require('../utils')
 const { listenEvents } = require('../listen')
+const { handleNym, registerNymAction, } = require('../tasks')
+const { taskList } = require('../task')
 const useProxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.ALL_PROXY
 let proxyConfig = {}
 if (useProxy) {
@@ -16,9 +18,8 @@ if (useProxy) {
 }
 
 const bot = new Telegraf(process.env.BOT_TOKEN, proxyConfig)
-const taskList = []
 const commands = [
-  ['🔍 Search', '😎 Popular', 'Start'], // Row1 with 2 buttons
+  ['🔍 Nym Checking', 'Start'], // Row1 with 2 buttons
   ['☸ Setting', '📞 Feedback'], // Row2 with 2 buttons
   ['📢 Ads', '⭐️ Rate us', '👥 Contact'] // Row3 with 3 buttons
 ]
@@ -85,10 +86,10 @@ bot.command('stop', async ctx => {
   taskList.splice(findTaskIdx, 1)
   ctx.reply(`stop task:${stopId} succeed!`)
 })
-
+registerNymAction(bot)
 bot.on('text', async ctx => {
   const { from, text } = ctx.update.message
-  console.log(`bot.on('text')`)
+  console.log(`${new Date()}: bot.on('text')`)
   console.log(from, text)
   handleOnText(from, text, ctx)
 })
@@ -104,6 +105,7 @@ const renderStart = ctx => {
     .oneTime()
     .resize())
 }
+
 const handleOnText = (from, text, ctx) => {
   if (commandsFlatten.find(command => command === text)) {
     console.log(`run command:${text}`)
@@ -113,13 +115,10 @@ const handleOnText = (from, text, ctx) => {
     if (/start/gim.test(text)) {
       return renderStart(ctx)
     }
-    return ctx.reply('<b>Coke</b> or <i>Pepsi?</i>', {
-      parse_mode: 'HTML',
-      ...Markup.inlineKeyboard([
-        Markup.button.callback('Coke', 'Coke'),
-        Markup.button.callback('Pepsi', 'Pepsi')
-      ])
-    })
+    if (/Nym Checking/gim.test(text)) {
+      return handleNym(ctx)
+    }
+    return ctx.reply('Please use valid commands')
   }
 }
 bot.on('callback_query', async ctx => {
