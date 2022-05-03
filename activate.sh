@@ -1,4 +1,3 @@
-
 if [ ! -n "$1" ];then
   echo "activete url needed!"
   exit 1
